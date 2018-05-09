@@ -63,6 +63,17 @@ class Quizmodule extends Module
 
         include(dirname(__FILE__).'/sql/install.php');
 
+        $sql = "CREATE TABLE IF NOT EXISTS `"._DB_PREFIX_."quizModule`(
+            `id_quizModule` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+            `Question` VARCHAR(256) NOT NULL,
+            `Response1` VARCHAR(256) NOT NULL,
+            `Response2` VARCHAR(256) NOT NULL,
+            `Response3` VARCHAR(256) NOT NULL,
+            `Response4` VARCHAR(256) NOT NULL )";
+        
+        if(!$result=Db::getInstance()->Execute($sql))
+            return false;
+            
         return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
@@ -236,7 +247,7 @@ class Quizmodule extends Module
                     "response3" =>"dragoste implinita ",
                     "response4" =>"sa locuiesc in padure in comuniune cu animalele",
 
-                ))        
+                ))  
         ));
 
         return $this->display(__FILE__,"views/templates/front/front.tpl");
