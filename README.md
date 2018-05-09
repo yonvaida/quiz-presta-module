@@ -1,2 +1,1 @@
-# quiz-presta-module
-Quiz prestashop module
+# Block Quiz 
