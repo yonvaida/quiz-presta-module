@@ -224,11 +224,26 @@ class Quizmodule extends Module
 
     public function hookDisplayHomeTab()
     {
-        /* Place your code here. */
+        $this->context->controller->addCSS($this->_path.'/views/css/front.css');
+        $this->context->smarty->assign(array(
+            "Button" => "QUIZ",
+            "Title" => "Afla  ce cristal ti se potriveste ?",
+            "Questions" =>  array(
+                "question1" => array(
+                    "question" =>"O zana magica iti poate indeplini o dorinta ? Ce ai alege din cele de mai jos?",
+                    "response1" =>"o viata mai usoara ",
+                    "response2" =>"un castel al tau",
+                    "response3" =>"dragoste implinita ",
+                    "response4" =>"sa locuiesc in padure in comuniune cu animalele",
+
+                ))        
+        ));
+
+        return $this->display(__FILE__,"views/templates/front/front.tpl");
     }
 
     public function hookDisplayLeftColumn()
     {
-        /* Place your code here. */
+        return 'Hello world';
     }
 }
