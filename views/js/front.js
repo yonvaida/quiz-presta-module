@@ -25,3 +25,16 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+let currentQuestion = 1;
+
+
+function nextQuestion(){
+
+  $(`#header_${currentQuestion}`).css({ 'display' : 'none'});
+  $(`#body_${currentQuestion}`).css({ 'display' : 'none'});
+  currentQuestion++;
+  $(`#header_${currentQuestion}`).css({ 'display' : ''});
+  $(`#body_${currentQuestion}`).css({ 'display' : ''});
+
+
+}
