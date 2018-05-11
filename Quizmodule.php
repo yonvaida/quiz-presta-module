@@ -84,132 +84,58 @@ class Quizmodule extends Module
      */
     public function getContent()
     {
+        if (Tools::isSubmit('submit'))
+    {
+        $questionsAndAnswers = [];
+        for($i=1; $i <= Tools::getValue('questionsCount'); $i++){
+            array_push($questionsAndAnswers,array(
+                'question' => Tools::getValue('question_'.$i),
+                'firstAnswer' => Tools::getValue('firstAnswer_'.$i),
+                'secondAnswer' => Tools::getValue('secondAnswer_'.$i),
+                'thirdAnswer' => Tools::getValue('thirdAnswer_'.$i),
+                'fourthAnswer' => Tools::getValue('fourthAnswer_'.$i)
+            ));
+        };
+        $this->updateDatabaseRecords($questionsAndAnswers);
+    }
+    $this->_displayForm();
+    return $this->_html;
+    }
+
+    /**
+     * Display form used to edit questions
+     */
+    private function _displayForm() {
         include(dirname(__FILE__).'/sql/questions.php');
+        $this->_html .= '
+        <form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
+        foreach($results as $row){
+            $this->_html .=
+            '<div class="panel">
+                    <label>Question '.$row['id_Quizmodule'].'</label>
+                    <input type="text" name="question_'.$row['id_Quizmodule'].'" value="'.$row['Question'].'" />
+                    <label>Answer 1</label>
+                    <input type="text" name="firstAnswer_'.$row['id_Quizmodule'].'" value="'.$row['Answer_1'].'" />
+                    <label>Answer 2</label>
+                    <input type="text" name="secondAnswer_'.$row['id_Quizmodule'].'" value="'.$row['Answer_2'].'" />
+                    <label>Answer 3</label>
+                    <input type="text" name="thirdAnswer_'.$row['id_Quizmodule'].'" value="'.$row['Answer_3'].'" />
+                    <label>Answer 4</label>
+                    <input type="text" name="fourthAnswer_'.$row['id_Quizmodule'].'" value="'.$row['Answer_4'].'" />
+            </div>';
+        };
+        $this->_html .='
+        <input type="hidden" name="questionsCount" value="'.count($results).'"/>
+        <input type="submit" name="submit" value="'.$this->l('Update').'" class="button" />
+        <input type="submit" name="new" value="'.$this->l('Add new').'" class="button" />
+        </form>
         
-        $this->context->smarty->assign(array(
-            'result' => $results
-        ));
-
-        $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
-        if(Tools::getValue('submit-query')) {
-
-            echo "<script>console.log('merge submit')</script>";
-          
-          }
-          
-            else {
-          
-              $this->_html .= $this->displayError($this->l('You Have Some Errors'));
-          
-            }
-          
-        return $output.$this->renderForm();
+        ';
     }
-
-    /**
-     * Create the form that will be displayed in the configuration of your module.
-     */
-    protected function renderForm()
-    {
-        // $helper = new HelperForm();
-
-        // $helper->show_toolbar = false;
-        // $helper->table = $this->table;
-        // $helper->module = $this;
-        // $helper->default_form_language = $this->context->language->id;
-        // $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
-
-        // $helper->identifier = $this->identifier;
-        // $helper->submit_action = 'submitQuizmoduleModule';
-        // $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-        //     .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
-        // $helper->token = Tools::getAdminTokenLite('AdminModules');
-
-        // $helper->tpl_vars = array(
-        //     'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
-        //     'languages' => $this->context->controller->getLanguages(),
-        //     'id_language' => $this->context->language->id,
-        // );
-
-        // return $helper->generateForm(array($this->getConfigForm()));
+    
+    private function updateDatabaseRecords($questions){
+        echo '<script>console.log("'.$questions[0]['question'].'")</script>';
     }
-
-    /**
-     * Create the structure of your form.
-     */
-    protected function getConfigForm()
-    {
-        return array(
-            'form' => array(
-                'legend' => array(
-                'title' => $this->l('Settings'),
-                'icon' => 'icon-cogs',
-                ),
-                'input' => array(
-                    array(
-                        'type' => 'switch',
-                        'label' => $this->l('Live mode'),
-                        'name' => 'QUIZMODULE_LIVE_MODE',
-                        'is_bool' => true,
-                        'desc' => $this->l('Use this module in live mode'),
-                        'values' => array(
-                            array(
-                                'id' => 'active_on',
-                                'value' => true,
-                                'label' => $this->l('Enabled')
-                            ),
-                            array(
-                                'id' => 'active_off',
-                                'value' => false,
-                                'label' => $this->l('Disabled')
-                            )
-                        ),
-                    ),
-                    array(
-                        'col' => 3,
-                        'type' => 'text',
-                        'prefix' => '<i class="icon icon-envelope"></i>',
-                        'desc' => $this->l('Enter a valid email address'),
-                        'name' => 'QUIZMODULE_ACCOUNT_EMAIL',
-                        'label' => $this->l('Email'),
-                    ),
-                    array(
-                        'type' => 'password',
-                        'name' => 'QUIZMODULE_ACCOUNT_PASSWORD',
-                        'label' => $this->l('Password'),
-                    ),
-                ),
-                'submit' => array(
-                    'title' => $this->l('Save'),
-                ),
-            ),
-        );
-    }
-
-    /**
-     * Set values for the inputs.
-     */
-    protected function getConfigFormValues()
-    {
-        return array(
-            'QUIZMODULE_LIVE_MODE' => Configuration::get('QUIZMODULE_LIVE_MODE', true),
-            'QUIZMODULE_ACCOUNT_EMAIL' => Configuration::get('QUIZMODULE_ACCOUNT_EMAIL', 'contact@prestashop.com'),
-            'QUIZMODULE_ACCOUNT_PASSWORD' => Configuration::get('QUIZMODULE_ACCOUNT_PASSWORD', null),
-        );
-    }
-
-    /**
-     * Save form data.
-     */
-    protected function postProcess()
-    {
-        $form_values = $this->getConfigFormValues();
-
-        foreach (array_keys($form_values) as $key) {
-            Configuration::updateValue($key, Tools::getValue($key));
-        }
-    }
-
     /**
     * Add the CSS & JavaScript files you want to be loaded in the BO.
     */
@@ -232,19 +158,11 @@ class Quizmodule extends Module
 
     public function hookDisplayHomeTab()
     {
+        include(dirname(__FILE__).'/sql/questions.php');
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
         $this->context->smarty->assign(array(
             "Button" => "QUIZ",
-            "Title" => "Afla  ce cristal ti se potriveste ?",
-            "Questions" =>  array(
-                "question1" => array(
-                    "question" =>"O zana magica iti poate indeplini o dorinta ? Ce ai alege din cele de mai jos?",
-                    "response1" =>"o viata mai usoara ",
-                    "response2" =>"un castel al tau",
-                    "response3" =>"dragoste implinita ",
-                    "response4" =>"sa locuiesc in padure in comuniune cu animalele",
-
-                ))  
+            "results" =>  $results
         ));
 
         return $this->display(__FILE__,"views/templates/front/front.tpl");
