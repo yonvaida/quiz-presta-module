@@ -62,17 +62,6 @@ class Quizmodule extends Module
         Configuration::updateValue('QUIZMODULE_LIVE_MODE', false);
 
         include(dirname(__FILE__).'/sql/install.php');
-
-        $sql = "CREATE TABLE IF NOT EXISTS `"._DB_PREFIX_."quizModule`(
-            `id_quizModule` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-            `Question` VARCHAR(256) NOT NULL,
-            `Response1` VARCHAR(256) NOT NULL,
-            `Response2` VARCHAR(256) NOT NULL,
-            `Response3` VARCHAR(256) NOT NULL,
-            `Response4` VARCHAR(256) NOT NULL )";
-        
-        if(!$result=Db::getInstance()->Execute($sql))
-            return false;
             
         return parent::install() &&
             $this->registerHook('header') &&
@@ -95,17 +84,25 @@ class Quizmodule extends Module
      */
     public function getContent()
     {
-        /**
-         * If values have been submitted in the form, process.
-         */
-        if (((bool)Tools::isSubmit('submitQuizmoduleModule')) == true) {
-            $this->postProcess();
-        }
-
-        $this->context->smarty->assign('module_dir', $this->_path);
+        include(dirname(__FILE__).'/sql/questions.php');
+        
+        $this->context->smarty->assign(array(
+            'result' => $results
+        ));
 
         $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
+        if(Tools::getValue('submit-query')) {
 
+            echo "<script>console.log('merge submit')</script>";
+          
+          }
+          
+            else {
+          
+              $this->_html .= $this->displayError($this->l('You Have Some Errors'));
+          
+            }
+          
         return $output.$this->renderForm();
     }
 
@@ -114,27 +111,27 @@ class Quizmodule extends Module
      */
     protected function renderForm()
     {
-        $helper = new HelperForm();
+        // $helper = new HelperForm();
 
-        $helper->show_toolbar = false;
-        $helper->table = $this->table;
-        $helper->module = $this;
-        $helper->default_form_language = $this->context->language->id;
-        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
+        // $helper->show_toolbar = false;
+        // $helper->table = $this->table;
+        // $helper->module = $this;
+        // $helper->default_form_language = $this->context->language->id;
+        // $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
 
-        $helper->identifier = $this->identifier;
-        $helper->submit_action = 'submitQuizmoduleModule';
-        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-            .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminModules');
+        // $helper->identifier = $this->identifier;
+        // $helper->submit_action = 'submitQuizmoduleModule';
+        // $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+        //     .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+        // $helper->token = Tools::getAdminTokenLite('AdminModules');
 
-        $helper->tpl_vars = array(
-            'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
-            'languages' => $this->context->controller->getLanguages(),
-            'id_language' => $this->context->language->id,
-        );
+        // $helper->tpl_vars = array(
+        //     'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
+        //     'languages' => $this->context->controller->getLanguages(),
+        //     'id_language' => $this->context->language->id,
+        // );
 
-        return $helper->generateForm(array($this->getConfigForm()));
+        // return $helper->generateForm(array($this->getConfigForm()));
     }
 
     /**

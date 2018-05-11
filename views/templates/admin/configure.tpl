@@ -22,27 +22,24 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+{foreach from=$result item=row}
+	<div class="panel">
+	<div id="content" class="form-wrapper" >
+  <div class="form-content">
+		Question {$row['id_Quizmodule']}:
+		<input type="text" value="{$row['Question']}">
+		First answer:
+		<input type="text" value="{$row['Answer_1']}">
+		Second answer:
+		<input type="text" value="{$row['Answer_2']}">
+		Third answer:
+		<input type="text" value="{$row['Answer_3']}">
+		Fourth answer:
+		<input type="text" value="{$row['Answer_4']}">
+		<input type="submit" name="submit-query" id="submit-enquiry" value="Update" class="btn btn-primary" style="margin-top:15px;">
+		</div>
+		</div>
+	</div>
+{/foreach}
 
-<div class="panel">
-	<h3><i class="icon icon-credit-card"></i> {l s='Block Quiz ' mod='Quizmodule'}</h3>
-	<p>
-		<strong>{l s='Here is my new generic module!' mod='Quizmodule'}</strong><br />
-		{l s='Thanks to PrestaShop, now I have a great module.' mod='Quizmodule'}<br />
-		{l s='I can configure it using the following configuration form.' mod='Quizmodule'}
-	</p>
-	<br />
-	<p>
-		{l s='This module will boost your sales!' mod='Quizmodule'}
-	</p>
-</div>
 
-<div class="panel">
-	<h3><i class="icon icon-tags"></i> {l s='Documentation' mod='Quizmodule'}</h3>
-	<p>
-		&raquo; {l s='You can get a PDF documentation to configure this module' mod='Quizmodule'} :
-		<ul>
-			<li><a href="#" target="_blank">{l s='English' mod='Quizmodule'}</a></li>
-			<li><a href="#" target="_blank">{l s='French' mod='Quizmodule'}</a></li>
-		</ul>
-	</p>
-</div>
