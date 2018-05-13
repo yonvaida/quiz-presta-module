@@ -25,3 +25,36 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+let currentQuestion = 0;
+let answers = [];
+
+let nextQuestion = (question) => {
+  if(currentQuestion !== 0 ) getAnswer();
+  $(`#header_${currentQuestion}`)
+    .addClass("animated fadeOut")
+    .removeClass("fadeIn")
+    .css({ 'display' : 'none'});
+  $(`#body_${currentQuestion}`)
+    .addClass('animated fadeOut')
+    .removeClass("fadeIn")
+    .css({ 'display' : 'none'});
+    if(question === 0){
+      currentQuestion = 1;
+      answers = [0];
+    } else {
+      currentQuestion++;
+    }
+  $(`#header_${currentQuestion}`)
+    .css({ 'display' : ''})
+    .removeClass("fadeOut")
+    .addClass("animated fadeIn");
+  $(`#body_${currentQuestion}`)
+    .css({ 'display' : ''})
+    .removeClass("fadeOut")
+    .addClass("animated fadeIn");
+}
+
+let getAnswer = () => {
+  var radios = $("input[type='radio']");
+  answers[currentQuestion] = parseInt(radios.filter(":checked").val());
+}

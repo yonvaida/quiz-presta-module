@@ -26,9 +26,14 @@
 
 $sql = array();
 
-$sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'Quizmodule` (
+$sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'quizModule` (
     `id_Quizmodule` int(11) NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY  (`id_Quizmodule`)
+    PRIMARY KEY  (`id_Quizmodule`),
+    `Question` VARCHAR(256) NOT NULL,
+    `Answer_1` VARCHAR(256) NOT NULL,
+    `Answer_2` VARCHAR(256) NOT NULL,
+    `Answer_3` VARCHAR(256) NOT NULL,
+    `Answer_4` VARCHAR(256) NOT NULL
 ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
 
 foreach ($sql as $query) {
