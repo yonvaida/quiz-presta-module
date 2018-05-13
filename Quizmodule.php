@@ -166,7 +166,8 @@ class Quizmodule extends Module
         $this->context->controller->addJS($this->_path.'/views/js/popper.min.js');
         $this->context->smarty->assign(array(
             "Button" => "QUIZ",
-            "results" =>  $results
+            "results" =>  $results,
+            "questionsCount" => count($results)
         ));
 
         return $this->display(__FILE__,"views/templates/front/front.tpl");

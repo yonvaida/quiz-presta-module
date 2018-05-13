@@ -19,7 +19,9 @@
       {/foreach}
       
       <div class="modal-footer">
+        <input type="hidden" id="questionsCount" value={$questionsCount}>
         <button type="button" id="nextButton" class="btn btn-info btn-lg" onclick="nextQuestion()" disabled>NEXT</button>
+        <button type="button" id="finishButton" class="btn btn-info btn-lg" onclick="finishQuiz()" disabled style="display:none;">FINISH</button>
         <button type="button" class="btn btn-info btn-lg" data-dismiss="modal">Close</button>
       </div>
     </div>

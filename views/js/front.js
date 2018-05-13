@@ -27,6 +27,7 @@
 */
 let currentQuestion = 0;
 let answers = [];
+let numberOfQuestions = 0;
 
 let nextQuestion = (question) => {
   if(currentQuestion !== 0 ) getAnswer();
@@ -41,6 +42,7 @@ let nextQuestion = (question) => {
     if(question === 0){
       currentQuestion = 1;
       answers = [0];
+      numberOfQuestions = $('#questionsCount').val(); 
     } else {
       currentQuestion++;
     }
@@ -58,14 +60,20 @@ let nextQuestion = (question) => {
 let getAnswer = () => {
   var radios = $("input[type='radio']");
   answers[currentQuestion] = parseInt(radios.filter(":checked").val());
+  if(parseInt(numberOfQuestions) === currentQuestion + 1){
+    $('#nextButton').css({'display':'none'});
+    $('#finishButton').css({'display':''});
+  }
 }
 
-let enable = () =>{
-  $('#nextButton').removeAttr('disabled');
+let enable = () => {
+  $('#nextButton, #finishButton').removeAttr('disabled');
 };
 
-let disable = () =>{
-  $('#nextButton').attr({'disabled':'disabled'});
+let disable = () => {
+  $('#nextButton, #finishButton').attr({'disabled':'disabled'});
 };
 
-$(":radio").uniform({radioClass: 'myRadioClass'}); 
+let finishQuiz = () => {
+  /*custom function */
+}
