@@ -84,6 +84,7 @@ class Quizmodule extends Module
      */
     public function getContent()
     {
+
         if (Tools::isSubmit('submit'))
     {
         $questionsAndAnswers = [];
@@ -160,6 +161,9 @@ class Quizmodule extends Module
     {
         include(dirname(__FILE__).'/sql/questions.php');
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
+        $this->context->controller->addCSS($this->_path.'/views/css/mdb.css');
+        $this->context->controller->addJS($this->_path.'/views/js/mdb.min.js');
+        $this->context->controller->addJS($this->_path.'/views/js/popper.min.js');
         $this->context->smarty->assign(array(
             "Button" => "QUIZ",
             "results" =>  $results
