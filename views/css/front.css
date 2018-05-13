@@ -98,7 +98,7 @@
   .modal-header {
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
-    background:rgba(212, 212, 212, 0.9);
+    background:rgba(255,255,255, 0.9);
   }
   .modal-header .close {
     margin-top: -2px;
@@ -110,13 +110,13 @@
   .modal-body {
     position: relative;
     padding: 15px;
-    background:rgba(212, 212, 212, 0.9);
+    background:rgba(255,255,255, 0.9);
   }
   .modal-footer {
     padding: 15px;
     text-align: right;
     border-top: 1px solid #e5e5e5;
-    background:rgba(212, 212, 212, 0.6);
+    background:rgba(255,255,255, 0.8);
   }
   .modal-footer .btn + .btn {
     margin-bottom: 0;
@@ -165,4 +165,8 @@
 .modal-header:after,
 .modal-footer:after {
   clear: both;
+}
+.answer{
+  font-weight: 100;
+  
 }

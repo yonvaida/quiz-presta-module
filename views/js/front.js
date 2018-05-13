@@ -52,9 +52,20 @@ let nextQuestion = (question) => {
     .css({ 'display' : ''})
     .removeClass("fadeOut")
     .addClass("animated fadeIn");
+  disable();
 }
 
 let getAnswer = () => {
   var radios = $("input[type='radio']");
   answers[currentQuestion] = parseInt(radios.filter(":checked").val());
 }
+
+let enable = () =>{
+  $('#nextButton').removeAttr('disabled');
+};
+
+let disable = () =>{
+  $('#nextButton').attr({'disabled':'disabled'});
+};
+
+$(":radio").uniform({radioClass: 'myRadioClass'}); 
